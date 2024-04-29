@@ -134,7 +134,7 @@ public:
 	{
 		for (int i = 0; i < students.size(); i++)
 		{
-			cout << "S.No: " << i + 1;
+			cout << "S.No: " << i + 1 << endl;
 			cout << "Name: " << students[i].getStudentName() << endl;
 			cout << "Rollno: " << students[i].getRNo() << endl;
 			cout << "--------------------\n\n";
@@ -192,66 +192,73 @@ int main()
 	string name, courseid;
 	int id;
 	char choice;
-	cout << "========== University TimeTable Manager ==========" << endl;
-	cout << "1. Student\n";
-	cout << "2. Teacher\n";
-	cout << "3. Course\n";
-	cout << "4. Exit\n";
-	cout << "Enter your choice: ";
-	cin >> choice;
 
-	if (choice == '1')
+	do
 	{
-		cout << "1. Add Student\n";
-		cout << "2. Remove Student\n";
-		cout << "3. Enroll Student\n";
-		cout << "4. Un-Enroll Student\n";
-		cout << "5. Show Students\n";
-		cout << "6. Update Student\n";
-		cout << "7. Exit\n";
+
+		cout << "========== University TimeTable Manager ==========" << endl;
+		cout << "1. Student\n";
+		cout << "2. Teacher\n";
+		cout << "3. Course\n";
+		cout << "4. Exit\n";
 		cout << "Enter your choice: ";
 		cin >> choice;
 
-		switch (choice)
+		if (choice == '1')
 		{
-		case '1':
-			ttm.addStudent();
-			break;
+			do
+			{
 
-		case '2':
-			cout << "Enter Student Id to be removed: ";
-			cin >> id;
-			ttm.removeStudent(id);
-			break;
+				cout << "1. Add Student\n";
+				cout << "2. Remove Student\n";
+				cout << "3. Enroll Student\n";
+				cout << "4. Un-Enroll Student\n";
+				cout << "5. Show Students\n";
+				cout << "6. Update Student\n";
+				cout << "7. Exit\n";
+				cout << "Enter your choice: ";
+				cin >> choice;
 
-		case '3':
-			cout << "Enroll\n";
-			break;
-
-		case '4':
-			cout << "UnEnroll\n";
-			break;
-
-		case '5':
-			ttm.showStudents();
-			system("pause");
-			break;
-
-		case '6':
-			cout << "Update\n";
-			break;
-
-		case '7':
-			cout << "You are being transfered back to Menu!\n";
-			Sleep(2000);
-			break;
-
-		default:
-			cout << "Invalid choice!\n";
-			break;
+				if (choice == '1')
+				{
+					ttm.addStudent();
+				}
+				else if (choice == '2')
+				{
+					cout << "Enter Student Id to be removed: ";
+					cin >> id;
+					ttm.removeStudent(id);
+				}
+				else if (choice == '3')
+				{
+					cout << "Enroll\n";
+				}
+				else if (choice == '4')
+				{
+					cout << "UnEnroll\n";
+				}
+				else if (choice == '5')
+				{
+					ttm.showStudents();
+					system("pause");
+				}
+				else if (choice == '6')
+				{
+					cout << "Update\n";
+				}
+				else if (choice == '7')
+				{
+					cout << "You are being transferred back to Menu!\n";
+					system("pause");
+					break;
+				}
+				else
+				{
+					cout << "Invalid choice!\n";
+				}
+			} while (true);
 		}
-	}
-
+	} while (true);
 	system("pause");
 	return 0;
 }
