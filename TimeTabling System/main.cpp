@@ -52,6 +52,9 @@ public:
 		courseId = Id;
 	}
 
+	string getCourseId() { return courseId; }
+	string getCourseName() { return courseName; }
+
 	void addStudent(Student s)
 	{
 		students.push_back(s);
@@ -142,8 +145,19 @@ public:
 	}
 
 	// Teacher Data
-	void addTeacher(Teacher t)
+	void addTeacher()
 	{
+		string name;
+		int id;
+
+		cout << "Enter Teacher Name: ";
+		cin.ignore();
+		getline(cin, name);
+		cout << "Enter Teacher Id: ";
+		cin >> id;
+
+		Teacher t(id, name);
+
 		teachers.push_back(t);
 		cout << "Teacher Added Successfully" << endl;
 		system("pause");
@@ -151,7 +165,7 @@ public:
 
 	void removeTeacher(int id)
 	{
-		for (int i = 0; i < students.size(); i++)
+		for (int i = 0; i < teachers.size(); i++)
 		{
 			if (id == teachers[i].getId())
 			{
@@ -163,6 +177,23 @@ public:
 		}
 		cout << "Teacher Not Found" << endl;
 		system("pause");
+	}
+
+	void showTeachers()
+	{
+		for (int i = 0; i < teachers.size(); i++)
+		{
+			cout << "S.No: " << i + 1 << endl;
+			cout << "Name: " << teachers[i].getTeacherName() << endl;
+			cout << "Id: " << teachers[i].getId() << endl;
+			cout << "--------------------\n\n";
+		}
+	}
+
+	void assignTeacher(Teacher t, Course c)
+	{
+		c.addTeacher(t);
+		cout << "Teacher assigned successfully!" << endl;
 	}
 
 	// Course Data
@@ -177,19 +208,42 @@ public:
 
 		Course course(name, id);
 		courses.push_back(course);
+		cout << "Course Added Successfully" << endl;
+		system("pause");
 	}
 
-	void assignTeacher(Teacher t, Course c)
+	void removeCourse(string id)
 	{
-		c.addTeacher(t);
-		cout << "Teacher assigned successfully!" << endl;
+		for (int i = 0; i < courses.size(); i++)
+		{
+			if (id == courses[i].getCourseId())
+			{
+				courses.erase(courses.begin() + i);
+				cout << "Course Removed Successfully" << endl;
+				system("pause");
+				return;
+			}
+		}
+		cout << "Course Not Found" << endl;
+		system("pause");
+	}
+
+	void showCourses()
+	{
+		for (int i = 0; i < courses.size(); i++)
+		{
+			cout << "S.No: " << i + 1 << endl;
+			cout << "Name: " << courses[i].getCourseName() << endl;
+			cout << "Id: " << courses[i].getCourseId() << endl;
+			cout << "--------------------\n\n";
+		}
 	}
 };
 
 int main()
 {
 	TimetableManager ttm;
-	string name, courseid;
+	string name, courseId;
 	int id;
 	char choice;
 
@@ -248,7 +302,7 @@ int main()
 				}
 				else if (choice == '7')
 				{
-					cout << "You are being transferred back to Menu!\n";
+					cout << "You will be transferred back to Main Menu!\n";
 					system("pause");
 					break;
 				}
@@ -258,7 +312,111 @@ int main()
 				}
 			} while (true);
 		}
+		else if (choice == '2')
+		{
+			do
+			{
+				cout << "1. Add Teacher\n";
+				cout << "2. Remove Teacher\n";
+				cout << "3. Assign Teacher\n";
+				cout << "4. UnAssign Teacher\n";
+				cout << "5. Show Teachers\n";
+				cout << "6. Update Teacher\n";
+				cout << "7. Exit\n";
+				cout << "Enter your choice: ";
+				cin >> choice;
+
+				if (choice == '1')
+				{
+					ttm.addTeacher();
+				}
+				else if (choice == '2')
+				{
+					cout << "Enter Teacher Id to be removed: ";
+					cin >> id;
+					ttm.removeTeacher(id);
+				}
+				else if (choice == '3')
+				{
+					// Do nothing for case '3'
+				}
+				else if (choice == '4')
+				{
+					// Do nothing for case '4'
+				}
+				else if (choice == '5')
+				{
+					ttm.showTeachers();
+				}
+				else if (choice == '6')
+				{
+					// Do nothing for case '6'
+				}
+				else if (choice == '7')
+				{
+					cout << "You are being transferred to Main Menu!\n";
+					system("pause");
+					break;
+				}
+				else
+				{
+					cout << "Invalid choice!\n";
+				}
+			} while (true);
+		}
+		else if (choice == '3')
+		{
+			do
+			{
+				cout << "1. Add Course\n";
+				cout << "2. Remove Course\n";
+				cout << "5. Show Courses\n";
+				cout << "6. Update Course\n";
+				cout << "7. Exit\n";
+				cout << "Enter your choice: ";
+				cin >> choice;
+
+				if (choice == '1')
+				{
+					ttm.addCourse();
+				}
+				else if (choice == '2')
+				{
+					cout << "Enter Course Id to be removed: ";
+					cin >> courseId;
+					ttm.removeCourse(courseId);
+				}
+				else if (choice == '3')
+				{
+					// Do nothing for case '3'
+				}
+				else if (choice == '4')
+				{
+					// Do nothing for case '4'
+				}
+				else if (choice == '5')
+				{
+					ttm.showCourses();
+				}
+				else if (choice == '6')
+				{
+					// Do nothing for case '6'
+				}
+				else if (choice == '7')
+				{
+					cout << "You are being transferred to Main Menu!\n";
+					system("pause");
+					break;
+				}
+				else
+				{
+					cout << "Invalid choice!\n";
+				}
+
+			} while (true);
+		}
 	} while (true);
+
 	system("pause");
 	return 0;
 }
