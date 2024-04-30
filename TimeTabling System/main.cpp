@@ -19,6 +19,10 @@ public:
 
 	string getStudentName() { return studentName; }
 	int getRNo() { return rollno; }
+
+	void change_name(string n) {
+		studentName = n;
+	}
 };
 
 class Teacher
@@ -36,6 +40,10 @@ public:
 
 	string getTeacherName() { return teacherName; }
 	int getId() { return teacherId; }
+
+	void change_name(string n) {
+		teacherName = n;
+	}
 };
 
 class Course
@@ -77,6 +85,10 @@ public:
 	{
 		teachers.push_back(t);
 	}
+
+	void change_name(string n) {
+		courseName = n;
+	}
 };
 
 class TimetableManager
@@ -87,7 +99,7 @@ private:
 	vector<Course> courses;
 
 public:
-	// Student Data
+	// --------------------- Student Data ---------------------
 	void addStudent()
 	{
 		string name;
@@ -144,7 +156,27 @@ public:
 		}
 	}
 
-	// Teacher Data
+	void updateStudent(int id) {
+		for (int i = 0; i < students.size(); i++)
+		{
+			if (id == students[i].getRNo())
+			{
+				string name;
+				cout << "Enter name of teacher: ";
+				cin.ignore();
+				getline(cin, name);
+
+				students[i].change_name(name);
+				cout << "Name updated successfully";
+				system("pause");
+				return;
+			}
+		}
+		cout << "Student not found!\n";
+		system("pause");
+	}
+
+	// --------------------- Teacher Data ---------------------
 	void addTeacher()
 	{
 		string name;
@@ -190,23 +222,43 @@ public:
 		}
 	}
 
+	void updateTeacher(int id) {
+		for (int i = 0; i < teachers.size(); i++)
+		{
+			if (id == teachers[i].getId())
+			{
+				string name;
+				cout << "Enter name of teacher: ";
+				cin.ignore();
+				getline(cin, name);
+
+				teachers[i].change_name(name);
+				cout << "Name updated successfully";
+				system("pause");
+				return;
+			}
+		}
+		cout << "Teacher not found!\n";
+		system("pause");
+	}
+
 	void assignTeacher(Teacher t, Course c)
 	{
 		c.addTeacher(t);
 		cout << "Teacher assigned successfully!" << endl;
 	}
 
-	// Course Data
+	// --------------------- Course Data ---------------------
 	void addCourse()
 	{
 		string name, id;
 		cout << "Enter Course Name: ";
-		getline(cin, name);
 		cin.ignore();
+		getline(cin, name);
 		cout << "Enter Course Id: ";
 		cin >> id;
 
-		Course course(name, id);
+		Course course(id, name);
 		courses.push_back(course);
 		cout << "Course Added Successfully" << endl;
 		system("pause");
@@ -237,6 +289,27 @@ public:
 			cout << "Id: " << courses[i].getCourseId() << endl;
 			cout << "--------------------\n\n";
 		}
+		system("pause");
+	}
+
+	void updateCourse(string id) {
+		for (int i = 0; i < courses.size(); i++)
+		{
+			if (id == courses[i].getCourseId())
+			{
+				string name;
+				cout << "Enter name of course: ";
+				cin.ignore();
+				getline(cin, name);
+
+				courses[i].change_name(name);
+				cout << "Name updated successfully";
+				system("pause");
+				return;
+			}
+		}
+		cout << "Course not found!\n";
+		system("pause");
 	}
 };
 
@@ -257,7 +330,7 @@ int main()
 		cout << "4. Exit\n";
 		cout << "Enter your choice: ";
 		cin >> choice;
-
+		
 		if (choice == '1')
 		{
 			do
@@ -298,7 +371,9 @@ int main()
 				}
 				else if (choice == '6')
 				{
-					cout << "Update\n";
+					cout << "Enter student id to update: ";
+					cin >> id;
+					ttm.updateStudent(id);
 				}
 				else if (choice == '7')
 				{
@@ -350,7 +425,9 @@ int main()
 				}
 				else if (choice == '6')
 				{
-					// Do nothing for case '6'
+					cout << "Enter Teacher id to update: ";
+					cin >> id;
+					ttm.updateTeacher(id);
 				}
 				else if (choice == '7')
 				{
@@ -370,9 +447,9 @@ int main()
 			{
 				cout << "1. Add Course\n";
 				cout << "2. Remove Course\n";
-				cout << "5. Show Courses\n";
-				cout << "6. Update Course\n";
-				cout << "7. Exit\n";
+				cout << "3. Show Courses\n";
+				cout << "4. Update Course\n";
+				cout << "5. Exit\n";
 				cout << "Enter your choice: ";
 				cin >> choice;
 
@@ -388,21 +465,15 @@ int main()
 				}
 				else if (choice == '3')
 				{
-					// Do nothing for case '3'
+					ttm.showCourses();
 				}
 				else if (choice == '4')
 				{
-					// Do nothing for case '4'
+					cout << "Enter id of course to update: ";
+					cin >> courseId;
+					ttm.updateCourse(courseId);
 				}
 				else if (choice == '5')
-				{
-					ttm.showCourses();
-				}
-				else if (choice == '6')
-				{
-					// Do nothing for case '6'
-				}
-				else if (choice == '7')
 				{
 					cout << "You are being transferred to Main Menu!\n";
 					system("pause");
@@ -411,6 +482,7 @@ int main()
 				else
 				{
 					cout << "Invalid choice!\n";
+					Sleep(800);
 				}
 
 			} while (true);
