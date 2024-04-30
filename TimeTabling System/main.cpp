@@ -9,6 +9,7 @@ class Student
 private:
 	int rollno;
 	string studentName;
+	vector<string> enrolledCourses;
 
 public:
 	Student(int r, string n)
@@ -24,6 +25,32 @@ public:
 	{
 		studentName = n;
 	}
+
+	void enrollCourse(string courseId)
+	{
+		enrolledCourses.push_back(courseId);
+	}
+
+	void unenrollCourse(string courseId)
+	{
+		for (int i = 0; i < enrolledCourses.size(); i++)
+		{
+			if (enrolledCourses[i] == courseId)
+			{
+				enrolledCourses.erase(enrolledCourses.begin() + i);
+				return;
+			}
+		}
+	}
+
+	void showEnrolledCourses()
+	{
+		cout << "Enrolled Courses:\n";
+		for (const string &courseId : enrolledCourses)
+		{
+			cout << courseId << endl;
+		}
+	}
 };
 
 class Teacher
@@ -31,6 +58,7 @@ class Teacher
 private:
 	int teacherId;
 	string teacherName;
+	vector<string> assignedCourses;
 
 public:
 	Teacher(int Id, string n)
@@ -45,6 +73,32 @@ public:
 	void change_name(string n)
 	{
 		teacherName = n;
+	}
+
+	void assignCourse(string courseId)
+	{
+		assignedCourses.push_back(courseId);
+	}
+
+	void unassignCourse(string courseId)
+	{
+		for (int i = 0; i < assignedCourses.size(); i++)
+		{
+			if (assignedCourses[i] == courseId)
+			{
+				assignedCourses.erase(assignedCourses.begin() + i);
+				return;
+			}
+		}
+	}
+
+	void showAssignedCourses()
+	{
+		cout << "Assigned Courses:\n";
+		for (const string &courseId : assignedCourses)
+		{
+			cout << courseId << endl;
+		}
 	}
 };
 
@@ -155,8 +209,10 @@ public:
 			cout << "S.No: " << i + 1 << endl;
 			cout << "Name: " << students[i].getStudentName() << endl;
 			cout << "Rollno: " << students[i].getRNo() << endl;
+			students[i].showEnrolledCourses();
 			cout << "--------------------\n\n";
 		}
+		system("pause");
 	}
 
 	void updateStudent(int id)
@@ -222,8 +278,10 @@ public:
 			cout << "S.No: " << i + 1 << endl;
 			cout << "Name: " << teachers[i].getTeacherName() << endl;
 			cout << "Id: " << teachers[i].getId() << endl;
+			teachers[i].showAssignedCourses();
 			cout << "--------------------\n\n";
 		}
+		system("pause");
 	}
 
 	void updateTeacher(int id)
@@ -334,6 +392,8 @@ public:
 		{
 			cout << "Student or Course not found!" << endl;
 		}
+
+		student->enrollCourse(courseId);
 	}
 
 	void unenrollStudentFromCourse()
@@ -357,6 +417,8 @@ public:
 		{
 			cout << "Student or Course not found!" << endl;
 		}
+
+		student->unenrollCourse(courseId);
 	}
 
 	void assignTeacherToCourse()
@@ -380,6 +442,8 @@ public:
 		{
 			cout << "Teacher or Course not found!" << endl;
 		}
+
+		teacher->assignCourse(courseId);
 	}
 
 	void unassignTeacherFromCourse()
@@ -403,6 +467,8 @@ public:
 		{
 			cout << "Teacher or Course not found!" << endl;
 		}
+
+		teacher->unassignCourse(courseId);
 	}
 
 	// Helper functions to find student, teacher, and course
@@ -442,28 +508,28 @@ public:
 		return nullptr;
 	}
 
-	void enrollStudent(Student& student, Course& course)
+	void enrollStudent(Student &student, Course &course)
 	{
 		course.addStudent(student);
 		cout << "Student enrolled successfully!" << endl;
 		system("pause");
 	}
 
-	void unenrollStudent(int studentId, Course& course)
+	void unenrollStudent(int studentId, Course &course)
 	{
 		course.removeStudent(studentId);
 		cout << "Student unenrolled successfully!" << endl;
 		system("pause");
 	}
 
-	void assignTeacher(Teacher& teacher, Course& course)
+	void assignTeacher(Teacher &teacher, Course &course)
 	{
 		course.addTeacher(teacher);
 		cout << "Teacher assigned to course successfully!" << endl;
 		system("pause");
 	}
 
-	void unassignTeacher(int teacherId, Course& course)
+	void unassignTeacher(int teacherId, Course &course)
 	{
 		course.removeTeacher(teacherId);
 		cout << "Teacher unassigned from course successfully!" << endl;
@@ -481,7 +547,8 @@ int main()
 	do
 	{
 		system("cls");
-		cout << "========== UNIVERSITY MANAGEMENT SYSTEM ==========\n" << endl;
+		cout << "========== UNIVERSITY MANAGEMENT SYSTEM ==========\n"
+			 << endl;
 		cout << "1. Student\n";
 		cout << "2. Teacher\n";
 		cout << "3. Course\n";
@@ -688,7 +755,8 @@ int main()
 			cout << "Good Bye\n";
 			exit(1);
 		}
-		else {
+		else
+		{
 			cout << "Invalid Choice!\n";
 			Sleep(600);
 		}
