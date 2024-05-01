@@ -1,7 +1,9 @@
 #include <iostream>
 #include <fstream>
-#include <vector>
 #include <string>
+#include <vector>
+#include <ctime>
+#include <iomanip>
 #include <Windows.h>
 using namespace std;
 
@@ -46,10 +48,24 @@ public:
 
 	void showEnrolledCourses()
 	{
-		cout << "Enrolled Courses:\n";
-		for (const string &courseName : enrolledCourses)
+		if (enrolledCourses.size() != 0)
 		{
-			cout << courseName << endl;
+			cout << "Enrolled Courses:\n";
+			for (int i = 0; i < enrolledCourses.size(); i++)
+			{
+				if (i == enrolledCourses.size() - 1)
+				{
+					cout << enrolledCourses[i] << endl;
+				}
+				else
+				{
+					cout << enrolledCourses[i] << ", ";
+				}
+			}
+		}
+		else
+		{
+			cout << "Not Registered!\n";
 		}
 	}
 };
@@ -95,10 +111,24 @@ public:
 
 	void showAssignedCourses()
 	{
-		cout << "Assigned Courses:\n";
-		for (const string &courseName : assignedCourses)
+		if (assignedCourses.size() != 0)
 		{
-			cout << courseName << endl;
+			cout << "Enrolled Courses:\n";
+			for (int i = 0; i < assignedCourses.size(); i++)
+			{
+				if (i == assignedCourses.size() - 1)
+				{
+					cout << assignedCourses[i] << endl;
+				}
+				else
+				{
+					cout << assignedCourses[i] << ", ";
+				}
+			}
+		}
+		else
+		{
+			cout << "Not Assigned to any course!\n";
 		}
 	}
 };
@@ -160,6 +190,8 @@ public:
 	{
 		courseName = n;
 	}
+
+	vector<Teacher> &getTeachers() { return teachers; } // Getter function for teachers
 };
 
 class TimetableManager
@@ -409,13 +441,12 @@ public:
 		if (student && course)
 		{
 			enrollStudent(*student, *course);
-		student->enrollCourse(course->getCourseName());
+			student->enrollCourse(course->getCourseName());
 		}
 		else
 		{
 			cout << "Student or Course not found!" << endl;
 		}
-
 	}
 
 	void unenrollStudentFromCourse()
@@ -434,13 +465,12 @@ public:
 		if (student && course)
 		{
 			unenrollStudent(studentId, *course);
-		student->unenrollCourse(course->getCourseName());
+			student->unenrollCourse(course->getCourseName());
 		}
 		else
 		{
 			cout << "Student or Course not found!" << endl;
 		}
-
 	}
 
 	void assignTeacherToCourse()
@@ -465,7 +495,6 @@ public:
 		{
 			cout << "Teacher or Course not found!" << endl;
 		}
-
 	}
 
 	void unassignTeacherFromCourse()
@@ -599,6 +628,28 @@ public:
 		}
 		courseFile.close();
 	}
+
+	// ------------------- TIMETABLE --------------------
+	void generateTimetable()
+	{
+		cout << "generate timetable\n";
+	}
+
+	void teacherWiseTimetable(int teacherId)
+	{
+		cout << teacherId;
+	}
+
+	// Generate course-wise timetable
+	void courseWiseTimetable(string courseId)
+	{
+		cout << courseId;
+	}
+
+	void studentWiseTimetable(int studentId)
+	{
+		cout << studentId;
+	}
 };
 
 int main()
@@ -615,7 +666,8 @@ int main()
 		cout << "1. Student\n";
 		cout << "2. Teacher\n";
 		cout << "3. Course\n";
-		cout << "4. Exit\n";
+		cout << "4. Timetable\n";
+		cout << "5. Exit\n";
 		cout << "Enter your choice: ";
 		cin >> choice;
 
@@ -817,6 +869,61 @@ int main()
 			} while (true);
 		}
 		else if (choice == '4')
+		{
+			do
+			{
+				system("cls");
+				cout << "========== TIMETABLE ==========\n";
+				cout << "1. Teacher wise time table\n";
+				cout << "2. Student wise timetable\n";
+				cout << "3. Subject wise timetable\n";
+				cout << "4. Generate Timetable\n";
+				cout << "5. Back to Main Menu\n";
+				cout << "Enter your choice: ";
+				cin >> choice;
+
+				if (choice == '1')
+				{
+					system("cls");
+					cout << "Enter teacher ID: ";
+					cin >> id;
+					ttm.teacherWiseTimetable(id);
+				}
+				else if (choice == '2')
+				{
+					system("cls");
+					cout << "Enter student rollno: ";
+					cin >> id;
+					ttm.studentWiseTimetable(id);
+				}
+				else if (choice == '3')
+				{
+					system("cls");
+					cout << "Enter course ID: ";
+					cin >> courseId;
+					ttm.courseWiseTimetable(courseId);
+				}
+				else if (choice == '4')
+				{
+					system("cls");
+					ttm.generateTimetable();
+				}
+				else if (choice == '5')
+				{
+					cout << "\nYou are being transferred to Main Menu!\n";
+					Sleep(800);
+					break;
+				}
+				else
+				{
+					cout << "\nInvalid choice!\n";
+					Sleep(600);
+				}
+
+			} while (true);
+		}
+
+		else if (choice == '5')
 		{
 			cout << "Good Bye\n";
 			exit(1);
