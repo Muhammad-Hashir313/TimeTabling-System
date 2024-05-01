@@ -26,16 +26,16 @@ public:
 		studentName = n;
 	}
 
-	void enrollCourse(string courseId)
+	void enrollCourse(string name)
 	{
-		enrolledCourses.push_back(courseId);
+		enrolledCourses.push_back(name);
 	}
 
-	void unenrollCourse(string courseId)
+	void unenrollCourse(string name)
 	{
 		for (int i = 0; i < enrolledCourses.size(); i++)
 		{
-			if (enrolledCourses[i] == courseId)
+			if (enrolledCourses[i] == name)
 			{
 				enrolledCourses.erase(enrolledCourses.begin() + i);
 				return;
@@ -46,9 +46,9 @@ public:
 	void showEnrolledCourses()
 	{
 		cout << "Enrolled Courses:\n";
-		for (const string &courseId : enrolledCourses)
+		for (const string &courseName : enrolledCourses)
 		{
-			cout << courseId << endl;
+			cout << courseName << endl;
 		}
 	}
 };
@@ -75,16 +75,16 @@ public:
 		teacherName = n;
 	}
 
-	void assignCourse(string courseId)
+	void assignCourse(string name)
 	{
-		assignedCourses.push_back(courseId);
+		assignedCourses.push_back(name);
 	}
 
-	void unassignCourse(string courseId)
+	void unassignCourse(string name)
 	{
 		for (int i = 0; i < assignedCourses.size(); i++)
 		{
-			if (assignedCourses[i] == courseId)
+			if (assignedCourses[i] == name)
 			{
 				assignedCourses.erase(assignedCourses.begin() + i);
 				return;
@@ -95,9 +95,9 @@ public:
 	void showAssignedCourses()
 	{
 		cout << "Assigned Courses:\n";
-		for (const string &courseId : assignedCourses)
+		for (const string &courseName : assignedCourses)
 		{
-			cout << courseId << endl;
+			cout << courseName << endl;
 		}
 	}
 };
@@ -204,15 +204,22 @@ public:
 
 	void showStudents()
 	{
-		for (int i = 0; i < students.size(); i++)
+		if (!students.size() == 0)
 		{
-			cout << "S.No: " << i + 1 << endl;
-			cout << "Name: " << students[i].getStudentName() << endl;
-			cout << "Rollno: " << students[i].getRNo() << endl;
-			students[i].showEnrolledCourses();
-			cout << "--------------------\n\n";
+			for (int i = 0; i < students.size(); i++)
+			{
+				cout << "S.No: " << i + 1 << endl;
+				cout << "Name: " << students[i].getStudentName() << endl;
+				cout << "Rollno: " << students[i].getRNo() << endl;
+				students[i].showEnrolledCourses();
+				cout << "--------------------\n\n";
+			}
 		}
-		system("pause");
+		else
+		{
+			cout << "No Student exist!\n";
+		}
+			system("pause");
 	}
 
 	void updateStudent(int id)
@@ -222,12 +229,12 @@ public:
 			if (id == students[i].getRNo())
 			{
 				string name;
-				cout << "Enter name of teacher: ";
+				cout << "Enter Student name: ";
 				cin.ignore();
 				getline(cin, name);
 
 				students[i].change_name(name);
-				cout << "Name updated successfully";
+				cout << "Name updated successfully\n";
 				system("pause");
 				return;
 			}
@@ -273,13 +280,19 @@ public:
 
 	void showTeachers()
 	{
-		for (int i = 0; i < teachers.size(); i++)
+		if(!teachers.size() == 0)
 		{
-			cout << "S.No: " << i + 1 << endl;
-			cout << "Name: " << teachers[i].getTeacherName() << endl;
-			cout << "Id: " << teachers[i].getId() << endl;
-			teachers[i].showAssignedCourses();
-			cout << "--------------------\n\n";
+			for (int i = 0; i < teachers.size(); i++)
+			{
+				cout << "S.No: " << i + 1 << endl;
+				cout << "Name: " << teachers[i].getTeacherName() << endl;
+				cout << "Id: " << teachers[i].getId() << endl;
+				teachers[i].showAssignedCourses();
+				cout << "--------------------\n\n";
+			}
+		}
+		else {
+			cout << "No teacher exist!\n";
 		}
 		system("pause");
 	}
@@ -339,12 +352,18 @@ public:
 
 	void showCourses()
 	{
-		for (int i = 0; i < courses.size(); i++)
+		if(!courses.size()==0)
 		{
-			cout << "S.No: " << i + 1 << endl;
-			cout << "Name: " << courses[i].getCourseName() << endl;
-			cout << "Id: " << courses[i].getCourseId() << endl;
-			cout << "--------------------\n\n";
+			for (int i = 0; i < courses.size(); i++)
+			{
+				cout << "S.No: " << i + 1 << endl;
+				cout << "Name: " << courses[i].getCourseName() << endl;
+				cout << "Id: " << courses[i].getCourseId() << endl;
+				cout << "--------------------\n\n";
+			}
+		}
+		else {
+			cout << "No Course Exist!\n";
 		}
 		system("pause");
 	}
@@ -393,7 +412,7 @@ public:
 			cout << "Student or Course not found!" << endl;
 		}
 
-		student->enrollCourse(courseId);
+		student->enrollCourse(course->getCourseName());
 	}
 
 	void unenrollStudentFromCourse()
@@ -418,7 +437,7 @@ public:
 			cout << "Student or Course not found!" << endl;
 		}
 
-		student->unenrollCourse(courseId);
+		student->unenrollCourse(course->getCourseName());
 	}
 
 	void assignTeacherToCourse()
@@ -443,7 +462,7 @@ public:
 			cout << "Teacher or Course not found!" << endl;
 		}
 
-		teacher->assignCourse(courseId);
+		teacher->assignCourse(course->getCourseName());
 	}
 
 	void unassignTeacherFromCourse()
@@ -468,7 +487,7 @@ public:
 			cout << "Teacher or Course not found!" << endl;
 		}
 
-		teacher->unassignCourse(courseId);
+		teacher->unassignCourse(course->getCourseName());
 	}
 
 	// Helper functions to find student, teacher, and course
@@ -603,10 +622,10 @@ int main()
 					system("cls");
 					cout << "========== DISPLAY STUDENT DATA ==========\n";
 					ttm.showStudents();
-					system("pause");
 				}
 				else if (choice == '6')
 				{
+					system("cls");
 					cout << "========== UPDATE STUDENT ==========\n";
 					cout << "Enter student id to update: ";
 					cin >> id;
