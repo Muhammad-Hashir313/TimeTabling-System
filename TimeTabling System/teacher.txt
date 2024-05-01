@@ -1,0 +1,11 @@
+========== Teacher Record ==========
+S.No: 1
+Name: Tamim Ahmad
+Roll No: 1
+--------------------
+
+S.No: 2
+Name: Zubair Abbasi
+Roll No: 2
+--------------------
+

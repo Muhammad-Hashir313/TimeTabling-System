@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <string>
 #include <Windows.h>
@@ -219,7 +220,7 @@ public:
 		{
 			cout << "No Student exist!\n";
 		}
-			system("pause");
+		system("pause");
 	}
 
 	void updateStudent(int id)
@@ -280,7 +281,7 @@ public:
 
 	void showTeachers()
 	{
-		if(!teachers.size() == 0)
+		if (!teachers.size() == 0)
 		{
 			for (int i = 0; i < teachers.size(); i++)
 			{
@@ -291,7 +292,8 @@ public:
 				cout << "--------------------\n\n";
 			}
 		}
-		else {
+		else
+		{
 			cout << "No teacher exist!\n";
 		}
 		system("pause");
@@ -352,7 +354,7 @@ public:
 
 	void showCourses()
 	{
-		if(!courses.size()==0)
+		if (!courses.size() == 0)
 		{
 			for (int i = 0; i < courses.size(); i++)
 			{
@@ -362,7 +364,8 @@ public:
 				cout << "--------------------\n\n";
 			}
 		}
-		else {
+		else
+		{
 			cout << "No Course Exist!\n";
 		}
 		system("pause");
@@ -406,13 +409,13 @@ public:
 		if (student && course)
 		{
 			enrollStudent(*student, *course);
+		student->enrollCourse(course->getCourseName());
 		}
 		else
 		{
 			cout << "Student or Course not found!" << endl;
 		}
 
-		student->enrollCourse(course->getCourseName());
 	}
 
 	void unenrollStudentFromCourse()
@@ -431,13 +434,13 @@ public:
 		if (student && course)
 		{
 			unenrollStudent(studentId, *course);
+		student->unenrollCourse(course->getCourseName());
 		}
 		else
 		{
 			cout << "Student or Course not found!" << endl;
 		}
 
-		student->unenrollCourse(course->getCourseName());
 	}
 
 	void assignTeacherToCourse()
@@ -456,13 +459,13 @@ public:
 		if (teacher && course)
 		{
 			assignTeacher(*teacher, *course);
+			teacher->assignCourse(course->getCourseName());
 		}
 		else
 		{
 			cout << "Teacher or Course not found!" << endl;
 		}
 
-		teacher->assignCourse(course->getCourseName());
 	}
 
 	void unassignTeacherFromCourse()
@@ -481,13 +484,12 @@ public:
 		if (teacher && course)
 		{
 			unassignTeacher(teacherId, *course);
+			teacher->unassignCourse(course->getCourseName());
 		}
 		else
 		{
 			cout << "Teacher or Course not found!" << endl;
 		}
-
-		teacher->unassignCourse(course->getCourseName());
 	}
 
 	// Helper functions to find student, teacher, and course
@@ -554,6 +556,49 @@ public:
 		cout << "Teacher unassigned from course successfully!" << endl;
 		system("pause");
 	}
+
+	// --------------------- File Handling ---------------------
+	void studentToFile()
+	{
+		ofstream studentFile("student.txt");
+		studentFile << "========== Student Record ==========\n";
+		for (int i = 0; i < students.size(); i++)
+		{
+			studentFile << "S.No: " << i + 1 << endl;
+			studentFile << "Name: " << students[i].getStudentName() << endl;
+			studentFile << "Roll No: " << students[i].getRNo() << endl;
+			studentFile << "--------------------\n\n";
+		}
+		studentFile.close();
+	}
+
+	void teacherToFile()
+	{
+		ofstream teacherFile("teacher.txt");
+		teacherFile << "========== Teacher Record ==========\n";
+		for (int i = 0; i < teachers.size(); i++)
+		{
+			teacherFile << "S.No: " << i + 1 << endl;
+			teacherFile << "Name: " << teachers[i].getTeacherName() << endl;
+			teacherFile << "Roll No: " << teachers[i].getId() << endl;
+			teacherFile << "--------------------\n\n";
+		}
+		teacherFile.close();
+	}
+
+	void courseToFile()
+	{
+		ofstream courseFile("course.txt");
+		courseFile << "========== Course Record ==========\n";
+		for (int i = 0; i < courses.size(); i++)
+		{
+			courseFile << "S.No: " << i + 1 << endl;
+			courseFile << "Name: " << courses[i].getCourseName() << endl;
+			courseFile << "Roll No: " << courses[i].getCourseId() << endl;
+			courseFile << "--------------------\n\n";
+		}
+		courseFile.close();
+	}
 };
 
 int main()
@@ -566,8 +611,7 @@ int main()
 	do
 	{
 		system("cls");
-		cout << "========== UNIVERSITY MANAGEMENT SYSTEM ==========\n"
-			 << endl;
+		cout << "========== UNIVERSITY MANAGEMENT SYSTEM ==========\n";
 		cout << "1. Student\n";
 		cout << "2. Teacher\n";
 		cout << "3. Course\n";
@@ -580,6 +624,7 @@ int main()
 			do
 			{
 				system("cls");
+				ttm.studentToFile();
 				cout << "========== STUDENT PORTAL ==========\n";
 				cout << "1. Add Student\n";
 				cout << "2. Remove Student\n";
@@ -648,6 +693,7 @@ int main()
 		{
 			do
 			{
+				ttm.teacherToFile();
 				system("cls");
 				cout << "========== TEACHER PORTAL ==========\n";
 				cout << "1. Add Teacher\n";
@@ -717,6 +763,7 @@ int main()
 		{
 			do
 			{
+				ttm.courseToFile();
 				system("cls");
 				cout << "========== COURSE PORTAL ==========\n";
 				cout << "1. Add Course\n";

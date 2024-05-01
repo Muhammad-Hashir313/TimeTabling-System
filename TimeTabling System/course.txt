@@ -1,0 +1,6 @@
+========== Course Record ==========
+S.No: 1
+Name: Discrete Structure
+Roll No: LA
+--------------------
+
